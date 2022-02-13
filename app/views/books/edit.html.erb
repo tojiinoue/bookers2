@@ -1,0 +1,26 @@
+<p id="notice"></p>
+<div class="container">
+  <div class="row">
+    <div class="mx-auto">
+      <h2>Editing Book</h2>
+
+      <% if @book.errors.any? %>
+        <%= @book.errors.count %>件のerrorが発生しました
+        <% @book.errors.full_messages.each do |message| %>
+          <%= message %>
+        <% end %>
+      <% end %>
+
+      <%= form_with model:@book, local:true do |f| %>
+        <label for="inputTitle">名前</label><br>
+        <%= f.text_field :title, autofocus: true, id:"inputTitle", placeholder:"title" %><br>
+        <label for="inputBody">感想</label><br>
+        <%= f.text_area :body, autofocus: true, id:"inputBody", placeholder:"body" %><br>
+        <%= f.submit "Update Book" %>
+      <% end%>
+      <%= link_to "Show", book_path(@book.id) %>
+      |
+      <%= link_to "Back", books_path %>
+    </div>
+  </div>
+</div>

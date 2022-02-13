@@ -1,0 +1,64 @@
+<% if flash[:notice] %>
+  <div class="flash">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+<p id="notice"></p>
+<div class="container">
+  <div class='row'>
+    <div class='col-md-3'>
+　　  <h2>User info</h2>
+      <%= attachment_image_tag @book.user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %>
+      <table>
+        <tr>
+          <th>name</th>
+          <th><%= @book.user.name %></th>
+        </tr>
+        <tr>
+          <th>introduction</th>
+          <th><%= @book.user.introduction %></th>
+        </tr>
+      </table>
+      <%= link_to edit_user_path(@book.user.id), class:"btn btn-outline-secondary" do %>
+        <i class="fas fa-user-cog"></i>
+      <% end %>
+      <h2>New book</h2>
+      <%= form_with model:@Book, local:true do |f| %>
+        <label for="inputTitle">名前</label><br>
+        <%= f.text_field :title, autofocus: true, id:"inputTitle", placeholder:"title" %><br>
+        <label for="inputBody">感想</label><br>
+        <%= f.text_area :body, autofocus: true, id:"inputBody", placeholder:"body" %><br>
+        <%= f.submit "Create Book" %>
+      <% end%>
+    </div>
+    <div class="col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+      <table>
+        <tr>
+          <td>
+            <%= attachment_image_tag @book.user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %><br>
+            <%= link_to user_path(@book.user) do %>
+              <%= @book.user.name %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to book_path(@book.id) do %>
+              <%= @book.title %>
+            <% end %>
+          </td>
+          <td><%= @book.body %></td>
+          <td>
+            <% if @book.user_id == current_user.id %>
+              <%= link_to "Edit", edit_book_path(@book), class: "btn btn-success" %>
+            <% end %>
+          </td>
+          <td>
+            <% if @book.user_id == current_user.id %>
+              <%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "本当に削除しますか？"}, class: "btn btn-danger" %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
